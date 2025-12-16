@@ -1,0 +1,695 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title data-en="Healthcare Services — DataFlow, Classification, Prometric">الخدمات الصحية — داتا فلو، التصنيف، البرومترك</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root{
+        /* Primary: أزرق احترافي مائل للأخضر (Teal Blue) */
+        --primary: #00897B;     
+        /* Secondary: أخضر حيوي (Emerald Green) */
+        --secondary: #43A047;   
+        /* Background: خلفية ناعمة جداً */
+        --bg: #F5F7F8;          
+        /* Card: البطاقات بيضاء */
+        --card: #ffffff;        
+        /* Text: لون نص داكن جداً لقراءة مريحة */
+        --text: #263238;        
+        /* Muted: نص ثانوي رمادي مريح */
+        --muted: #78909C;       
+        /* Shadow: ظل احترافي خفيف */
+        --shadow: 0 10px 30px rgba(0, 0, 0, .08);
+        --radius: 12px;
+    }
+    /* Dark Mode (تم تعديل الألوان لتكون أكثر ظلاماً وراحة للعين) */
+    body.dark{
+        --primary: #4DB6AC; 
+        --secondary: #81C784; 
+        --bg: #05aa41; 
+            color:#0f1723;
+        --card: #5F8B4C; 
+        --text:#78909C; 
+        --muted: #7baf84; 
+        --shadow: 0 10px 30px rgba(0, 0, 0, .6);
+    }
+
+    *{box-sizing:border-box}    
+    body{
+      font-family:'Cairo',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,sans-serif;
+      background:var(--bg); color:var(--text); line-height:1.8;
+      scroll-behavior:smooth;
+      transition: background .2s ease,color .2s ease;
+    }
+    
+    /* ======= LANGUAGE SWITCH STYLES ======= */
+    html[lang="en"] { direction: ltr; }
+
+    html[lang="en"] .sidebar-desktop{
+        inset-inline-end: auto; inset-inline-start: 0;
+        border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    html[lang="en"] .content-with-sidebar{ 
+        padding-inline-end: 0; 
+        padding-inline-start: 260px;
+    }
+    html[lang="en"] .hero{ text-align: center; }
+    html[lang="en"] .timeline::before{ inset-inline-start: auto; inset-inline-end: 18px; }
+    html[lang="en"] .timeline-step{ padding-inline-start: 0; padding-inline-end: 56px; }
+    html[lang="en"] .timeline-step .dot{ inset-inline-start: auto; inset-inline-end: 10px; }
+    html[lang="en"] .navbar-brand.brand{ margin-right: 0 !important; margin-left: 10px !important; }
+    html[lang="en"] .navbar .nav-item { margin-left: 0 !important; margin-right: 15px !important; }
+
+
+    /* ======= NAVBAR ======= */
+    .navbar{
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      box-shadow: var(--shadow);
+    }
+    .navbar .nav-link{ color:#fff !important; font-weight:600; opacity:.95 }
+    .navbar .nav-link:hover{ opacity:1 }
+    .brand{ font-weight:700; letter-spacing:.2px; color:#fff !important }
+    
+    /* ======= DESKTOP SIDEBAR ======= */
+    .sidebar-desktop{
+        position: fixed; inset-block-start: 76px; inset-inline-end: 0;
+        width: 240px; height: calc(100vh - 88px);
+        background: var(--card); border-radius: var(--radius) 0 0 var(--radius);
+        box-shadow: var(--shadow); padding: 14px; overflow:auto; display:none;
+    }
+    .sidebar-desktop .list-group-item{ border:0; border-radius:10px; margin:4px 0; color:var(--text); }
+    .sidebar-desktop .list-group-item.active{ background:linear-gradient(135deg,var(--primary),var(--secondary)); color:#fff; }
+    
+    /* مساحة للمحتوى مع الشريط الجانبي على الشاشات الكبيرة */
+    .content-with-sidebar{ padding-inline-end: 0; }
+    @media (min-width: 992px){
+      .sidebar-desktop{ display:block; }
+      .content-with-sidebar{ padding-inline-end: 260px; }
+    }
+    
+    /* ======= HERO ======= */
+    .hero{
+      min-height: 72vh; display:flex; align-items:center; text-align:center;
+      background: radial-gradient(1000px 500px at 80% -20%, rgba(67,160,71,.15), transparent),                  
+                  radial-gradient(900px 450px at 0% 120%, rgba(0,137,123,.15), transparent);
+      padding: 90px 0 60px;
+    }
+    .badge-soft{ background: rgba(255,255,255,.75); color:#0f1723; border-radius: 999px; padding:8px 14px; box-shadow: var(--shadow); }
+    .btn-cta{ background: linear-gradient(135deg,var(--primary),var(--secondary)); border:0; border-radius: 12px; color:#fff; font-weight:700; padding:.8rem 1.2rem }
+    .btn-ghost{ background:transparent; border:1px solid rgba(0,0,0,.1); color:var(--text); border-radius: 12px; }
+    body.dark .btn-ghost{ border-color: rgba(255,255,255,.15); color:#e6eef6 }
+    
+    /* ======= SECTIONS & CARDS ======= */
+    section{ padding:72px 0 }
+    .section-title{ color:var(--primary); font-weight:800; font-size:1.4rem; letter-spacing:.2px }
+    .muted{ color:var(--muted) }
+    .card-soft{ background:var(--card); border:0; border-radius: var(--radius); box-shadow: var(--shadow); }
+    .icon-pill{ width:56px;height:56px; display:inline-flex;align-items:center;justify-content:center; border-radius:14px; font-size:22px; 
+        background:linear-gradient(180deg, rgba(0,137,123,.15), rgba(67,160,71,.12)); 
+        color:var(--primary) 
+    }
+    
+    /* ======= TIMELINE / PROCESS ======= */
+    .timeline{ position:relative; padding-inline-start: 0; margin:0 }
+    .timeline::before{ content:""; position:absolute; inset-block:0; inset-inline-start: 18px; width:2px; background: linear-gradient(var(--primary), var(--secondary)); opacity:.35 }
+    .timeline-step{ position:relative; list-style:none; padding-inline-start: 56px; padding-block: 12px 18px }
+    .timeline-step .dot{ position:absolute; inset-inline-start: 10px; inset-block-start: 8px; width:16px; height:16px; border-radius:999px; background: linear-gradient(135deg,var(--primary),var(--secondary)); box-shadow:0 0 0 4px rgba(0,137,123,.15) }
+    
+    /* ======= BACK-TO-TOP ======= */
+    #toTop{ position:fixed; inset-inline-end:16px; inset-block-end:18px; z-index:999; display:none }
+    
+    /* ======= FOOTER ======= */
+    footer{ background: linear-gradient(90deg,var(--primary),var(--secondary)); color:#fff; padding:22px 0; margin-top:20px }
+  </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#sidebarNav" data-bs-offset="120" tabindex="0">
+  
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand brand" href="#home" data-en="Alexpro Healthcare Services"><i class="bi bi-hospital me-1"></i>  Alexproالخدمات الصحية</a>
+      
+      <div class="d-flex align-items-center order-lg-2 gap-2">
+        <button class="btn btn-light btn-sm" id="langToggle" title="English">EN</button> 
+        <button class="btn btn-outline-light btn-sm d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas"><i class="bi bi-list"></i></button>
+      </div>
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav" aria-controls="topNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="topNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="#about" data-en="About Us">من نحن</a></li>
+          <li class="nav-item"><a class="nav-link" href="#capabilities" data-en="Capabilities">ما يمكننا فعله</a></li>
+          <li class="nav-item"><a class="nav-link" href="#services" data-en="Services">خدماتنا</a></li>
+          <li class="nav-item"><a class="nav-link" href="#features" data-en="Features">خصائصنا</a></li>
+          <li class="nav-item"><a class="nav-link" href="#whyus" data-en="Why Us">لماذا نحن</a></li>
+          <li class="nav-item"><a class="nav-link" href="#portfolio" data-en="Portfolio">أعمالنا السابقة</a></li>
+          <li class="nav-item"><a class="nav-link" href="#process" data-en="Process">الخطوات</a></li>
+          <li class="nav-item"><a class="nav-link" href="#testimonials" data-en="Testimonials">الآراء</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact" data-en="Contact">تواصل</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+  <aside class="sidebar-desktop" id="sidebar">
+    <div class="fw-bold mb-2" data-en="Menu">القائمة</div>
+    <div class="list-group list-group-flush" id="sidebarNav">
+      <a href="#home" class="list-group-item list-group-item-action" data-en="Home"><i class="bi bi-house me-1"></i> الرئيسية</a>
+      <a href="#about" class="list-group-item list-group-item-action" data-en="About Us">من نحن</a>
+      <a href="#capabilities" class="list-group-item list-group-item-action" data-en="Capabilities">ما يمكننا فعله</a>
+      <a href="#services" class="list-group-item list-group-item-action" data-en="Services">خدماتنا</a>
+      <a href="#features" class="list-group-item list-group-item-action" data-en="Features">خصائصنا</a>
+      <a href="#whyus" class="list-group-item list-group-item-action" data-en="Why Us">لماذا نحن</a>
+      <a href="#portfolio" class="list-group-item list-group-item-action" data-en="Portfolio">أعمالنا السابقة</a>
+      <a href="#process" class="list-group-item list-group-item-action" data-en="Process">الخطوات</a>
+      <a href="#testimonials" class="list-group-item list-group-item-action" data-en="Client Reviews">آراء العملاء</a>
+      <a href="#contact" class="list-group-item list-group-item-action" data-en="Contact Us">تواصل معنا</a>
+    </div>
+  </aside>
+  
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="sidebarOffcanvasLabel" data-en="Menu">القائمة</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="list-group list-group-flush">
+        <a href="#home" class="list-group-item list-group-item-action" data-bs-dismiss="offcanvas" data-en="Home">الرئيسية</a>
+        <a href="#about" class="list-group-item list-group-item-action" data-bs-dismiss="offcanvas" data-en="About Us">من نحن</a>
+        <a href="#capabilities" class="list-group-item list-group-item-action" data-bs-dismiss="offcanvas" data-en="Capabilities">ما يمكننا فعله</a>
+        <a href="#services" class="list-group-item list-group-item-action" data-bs-dismiss="offcanvas" data-en="Services">خدماتنا</a>
+        <a href="#features" class="list-group-item list-group-item-action" data-bs-dismiss="offcanvas" data-en="Features">خصائصنا</a>
+        <a href="#whyus" class="list-group-item list-group-item-action" data-bs-dismiss="offcanvas" data-en="Why Us">لماذا نحن</a>
+        <a href="#portfolio" class="list-group-item list-group-item-action" data-bs-dismiss="offcanvas" data-en="Portfolio">أعمالنا السابقة</a>
+        <a href="#process" class="list-group-item list-group-item-action" data-bs-dismiss="offcanvas" data-en="Process">الخطوات</a>
+        <a href="#testimonials" class="list-group-item list-group-item-action" data-bs-dismiss="offcanvas" data-en="Client Reviews">آراء العملاء</a>
+        <a href="#contact" class="list-group-item list-group-item-action" data-bs-dismiss="offcanvas" data-en="Contact">تواصل</a>
+      </div>
+    </div>
+  </div>
+  
+  <main class="content-with-sidebar">
+    
+    <section id="home" class="hero">
+      <div class="container">
+        <div class="col-xl-9 mx-auto text-center" data-aos="fade-up">
+          <span class="badge-soft mb-3" data-en="Integrated Platform for DataFlow • Classification • Prometric">منصة متكاملة للداتا فلو • التصنيف • البرومترك</span>
+          <h1 class="fw-bold mb-2" data-en="We Simplify Your Healthcare Professional Licensing Journey in the Gulf">نُسهّل طريقك للترخيص المهني الصحي في الخليج</h1>
+          <p class="muted mb-4" data-en="We support doctors, nurses, and technicians in KSA, UAE, and Oman — from document verification to final licensure.">ندعم الأطباء والممرضين والفنيين في السعودية والإمارات وعُمان — من توثيق الشهادات حتى الحصول على الترخيص.</p>
+          <div class="d-flex gap-2 justify-content-center">
+            <a href="#contact" class="btn btn-cta" data-en="Request Consultation"><i class="bi bi-send me-1"></i> اطلب استشارة</a>
+            <a href="#process" class="btn btn-ghost" data-en="How We Work?"><i class="bi bi-shuffle me-1"></i> كيف نعمل؟</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="about">
+      <div class="container">
+        <div class="row g-4 align-items-center">
+          <div class="col-lg-6" data-aos="fade-right">
+            <div class="card card-soft p-4 h-100">
+              <h2 class="section-title mb-2" data-en="About Us">من نحن</h2>
+              <p class="mb-0 muted" data-en="A specialized team completing healthcare practitioner transactions: DataFlow, professional classification, Prometric preparation, and licensing procedures in KSA, UAE, and Oman — with precise follow-up from the first consultation to post-licensing.">فريق مختص بإتمام معاملات الممارسين الصحيين: الداتا فلو، التصنيف المهني، التحضير لاختبار البرومترك، وإجراءات الترخيص في السعودية والإمارات وعُمان — مع متابعة دقيقة من أول استشارة إلى ما بعد الحصول على الترخيص.</p>
+            </div>
+          </div>
+          <div class="col-lg-6" data-aos="fade-left">
+            <div class="row g-3">
+              <div class="col-6">
+                <div class="card card-soft p-3 text-center">
+                  <div class="icon-pill mb-2"><i class="bi bi-graph-up"></i></div>
+                  <div class="fw-semibold" data-en="High Success Rate">نسبة نجاح عالية</div>
+                  <small class="muted" data-en="+95% of files are accepted on the first attempt*">+95% من الملفات تُقبل من أول مرة*</small>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="card card-soft p-3 text-center">
+                  <div class="icon-pill mb-2"><i class="bi bi-headset"></i></div>
+                  <div class="fw-semibold" data-en="Continuous Support">دعم مستمر</div>
+                  <small class="muted" data-en="Real-time status updates">تحديثات لحظية لحالة الطلب</small>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="card card-soft p-3 text-center">
+                  <div class="icon-pill mb-2"><i class="bi bi-shield-lock"></i></div>
+                  <div class="fw-semibold" data-en="Data Security">أمان البيانات</div>
+                  <small class="muted" data-en="Secure encryption and storage">تشفير وتخزين آمن للمستندات</small>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="card card-soft p-3 text-center">
+                  <div class="icon-pill mb-2"><i class="bi bi-clock-history"></i></div>
+                  <div class="fw-semibold" data-en="Fast Delivery">تسليم سريع</div>
+                  <small class="muted" data-en="Clear timelines for each stage">جداول زمنية واضحة لكل مرحلة</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="capabilities" class="bg-body-tertiary">
+      <div class="container">
+        <h2 class="section-title text-center mb-2" data-en="What We Can Do">ما يمكننا فعله</h2>
+        <p class="text-center muted mb-4" data-en="Professional services covering the entire professional licensing cycle">خدمات احترافية تغطي دورة الترخيص المهني كاملة</p>
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-3" data-aos="fade-up">
+            <div class="card card-soft p-3 h-100 text-center">
+              <div class="icon-pill mb-2"><i class="bi bi-database-check"></i></div>
+              <div class="fw-semibold mb-1" data-en="DataFlow Application Setup">إعداد طلبات الداتا فلو</div>
+              <small class="muted" data-en="Preparation, auditing, submission, and status follow-up.">تجهيز، تدقيق، ورفع الطلبات مع متابعة الحالة.</small>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="60">
+            <div class="card card-soft p-3 h-100 text-center">
+              <div class="icon-pill mb-2"><i class="bi bi-person-badge"></i></div>
+              <div class="fw-semibold mb-1" data-en="Professional Classification (KSA)">التصنيف المهني (السعودية)</div>
+              <small class="muted" data-en="Matching qualifications to SCFHS requirements and file management.">مطابقة المؤهلات لمتطلبات SCFHS وإدارة الملف.</small>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="120">
+            <div class="card card-soft p-3 h-100 text-center">
+              <div class="icon-pill mb-2"><i class="bi bi-clipboard-check"></i></div>
+              <div class="fw-semibold mb-1" data-en="Prometric Preparation">التحضير للبرومترك</div>
+              <small class="muted" data-en="Registration, scheduling, and simulation testing.">تسجيل، جدولة، ومحاكاة اختبارات.</small>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="180">
+            <div class="card card-soft p-3 h-100 text-center">
+              <div class="icon-pill mb-2"><i class="bi bi-flag"></i></div>
+              <div class="fw-semibold mb-1" data-en="UAE & Oman Licensing">ترخيص الإمارات وعُمان</div>
+              <small class="muted" data-en="Regulatory body coordination and document completion.">تنسيق متطلبات الجهات التنظيمية واستكمال المستندات.</small>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="240">
+            <div class="card card-soft p-3 h-100 text-center">
+              <div class="icon-pill mb-2"><i class="bi bi-translate"></i></div>
+              <div class="fw-semibold mb-1" data-en="Certified Translation & Attestation">ترجمة وتصديق معتمد</div>
+              <small class="muted" data-en="Certified stamps for internationally required documents.">ختم معتمد للوثائق المطلوبة دوليًا.</small>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+            <div class="card card-soft p-3 h-100 text-center">
+              <div class="icon-pill mb-2"><i class="bi bi-file-earmark-text"></i></div>
+              <div class="fw-semibold mb-1" data-en="Professional CV Drafting">صياغة سيرة مهنية</div>
+              <small class="muted" data-en="Professional CV according to health authority requirements.">CV احترافي وفق متطلبات الهيئات الصحية.</small>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="360">
+            <div class="card card-soft p-3 h-100 text-center">
+              <div class="icon-pill mb-2"><i class="bi bi-cloud-arrow-up"></i></div>
+              <div class="fw-semibold mb-1" data-en="Secure Cloud Archiving">أرشفة سحابية آمنة</div>
+              <small class="muted" data-en="Uploading and safe storage of documents with controlled access.">رفع وحفظ الوثائق مع صلاحيات وصول محددة.</small>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="420">
+            <div class="card card-soft p-3 h-100 text-center">
+              <div class="icon-pill mb-2"><i class="bi bi-chat-dots"></i></div>
+              <div class="fw-semibold mb-1" data-en="Consultation & Career Path">استشارات ومسار مهني</div>
+              <small class="muted" data-en="A customized roadmap based on your specialty and experience.">خارطة طريق مخصصة حسب تخصصك وخبرتك.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="services">
+      <div class="container">
+        <h2 class="section-title text-center mb-2" data-en="Our Services">خدماتنا</h2>
+        <p class="text-center muted mb-4" data-en="Five main pillars covering DataFlow, Classification, and Examinations">خمسة محاور رئيسية تُغطي الداتا فلو، التصنيف، والاختبارات</p>
+        <div class="row g-4 text-center">
+          <div class="col-md-4" data-aos="zoom-in">
+            <div class="card card-soft p-4 h-100">
+              <div class="icon-pill mx-auto mb-2"><i class="bi bi-database-lock"></i></div>
+              <h5 class="fw-bold" data-en="DataFlow Verification">الداتا فلو</h5>
+              <p class="muted mb-0" data-en="Verification of certificates, experience, and primary/advanced verification.">توثيق الشهادات والخبرات والتحقق الأساسي/المتقدم.</p>
+            </div>
+          </div>
+          <div class="col-md-4" data-aos="zoom-in" data-aos-delay="80">
+            <div class="card card-soft p-4 h-100">
+              <div class="icon-pill mx-auto mb-2"><i class="bi bi-person-gear"></i></div>
+              <h5 class="fw-bold" data-en="Saudi Classification (SCFHS)">التصنيف السعودي (SCFHS)</h5>
+              <p class="muted mb-0" data-en="File creation, compliance matching, and requirement submission.">إنشاء الملف، مطابقة الضوابط، ورفع المتطلبات.</p>
+            </div>
+          </div>
+          <div class="col-md-4" data-aos="zoom-in" data-aos-delay="160">
+            <div class="card card-soft p-4 h-100">
+              <div class="icon-pill mx-auto mb-2"><i class="bi bi-clipboard2-check"></i></div>
+              <h5 class="fw-bold" data-en="Prometric Exam">اختبار البرومترك</h5>
+              <p class="muted mb-0" data-en="Registration, scheduling, and simulation model training.">تسجيل، جدولة، تدريب على نماذج محاكاة.</p>
+            </div>
+          </div>
+          <div class="col-md-6" data-aos="zoom-in" data-aos-delay="200">
+            <div class="card card-soft p-4 h-100">
+              <div class="icon-pill mx-auto mb-2"><i class="bi bi-flag"></i></div>
+              <h5 class="fw-bold" data-en="UAE Procedures">إجراءات الإمارات</h5>
+              <p class="muted mb-0" data-en="Coordination of requirements across UAE bodies until licensing.">تنسيق المتطلبات عبر الجهات الإماراتية حتى الترخيص.</p>
+            </div>
+          </div>
+          <div class="col-md-6" data-aos="zoom-in" data-aos-delay="260">
+            <div class="card card-soft p-4 h-100">
+              <div class="icon-pill mx-auto mb-2"><i class="bi bi-globe"></i></div>
+              <h5 class="fw-bold" data-en="Oman Procedures">إجراءات عُمان</h5>
+              <p class="muted mb-0" data-en="Document submission, follow-up, and final approvals issuance.">رفع المستندات، المتابعة، وإصدار الموافقات النهائية.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="features" class="bg-body-tertiary">
+      <div class="container">
+        <h2 class="section-title text-center mb-2" data-en="Our Features">خصائصنا</h2>
+        <p class="text-center muted mb-4" data-en="Practical features that elevate your experience efficiency">ميزات عملية ترفع كفاءة تجربتك</p>
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-4" data-aos="fade-up">
+            <div class="card card-soft p-4 h-100 text-center">
+              <div class="icon-pill mb-2"><i class="bi bi-lightning-charge"></i></div>
+              <div class="fw-semibold mb-1" data-en="Speed and Clarity">سرعة ووضوح</div>
+              <small class="muted" data-en="Progress indicators and estimated time for each stage.">مؤشرات تقدم وزمن متوقع لكل مرحلة.</small>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="80">
+            <div class="card card-soft p-4 h-100 text-center">
+              <div class="icon-pill mb-2"><i class="bi bi-shield-check"></i></div>
+              <div class="fw-semibold mb-1" data-en="Quality and Auditing">جودة وتدقيق</div>
+              <small class="muted" data-en="Pre-submission checklists to minimize rejection.">قوائم فحص قبل الرفع لتقليل الرفض.</small>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="160">
+            <div class="card card-soft p-4 h-100 text-center">
+              <div class="icon-pill mb-2"><i class="bi bi-bell"></i></div>
+              <div class="fw-semibold mb-1" data-en="Instant Alerts">تنبيهات فورية</div>
+              <small class="muted" data-en="Status notifications via email/WhatsApp.">إشعارات بالحالة عبر البريد/واتساب.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="whyus">
+      <div class="container">
+        <div class="row g-4 align-items-center">
+          <div class="col-lg-7" data-aos="fade-right">
+            <h2 class="section-title mb-3" data-en="Why Choose Us?">لماذا نحن</h2>
+            <ul class="list-unstyled m-0">
+              <li class="mb-2" data-en="Deep sectoral expertise in Gulf regulations."><i class="bi bi-check2-circle text-success me-1"></i> خبرة قطاعية عميقة بالتشريعات الخليجية.</li>
+              <li class="mb-2" data-en="Direct communication with authorities to speed up the process."><i class="bi bi-check2-circle text-success me-1"></i> تواصل مباشر مع الجهات لتسريع الإجراء.</li>
+              <li class="mb-2" data-en="Transparent pricing with no surprises."><i class="bi bi-check2-circle text-success me-1"></i> تسعير شفاف بدون مفاجآت.</li>
+            </ul>
+          </div>
+          <div class="col-lg-5" data-aos="fade-left">
+            <div class="card card-soft p-4 text-center">
+              <div class="display-6 fw-bold">98%</div>
+              <div class="muted" data-en="Client Satisfaction according to internal surveys">رضا عملائنا بحسب الاستبيانات الداخلية</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="portfolio" class="bg-body-tertiary">
+      <div class="container">
+        <h2 class="section-title text-center mb-2" data-en="Our Portfolio">أعمالنا السابقة</h2>
+        <p class="text-center muted mb-4" data-en="Examples of cases that have been successfully completed">نماذج من الحالات التي تم إنجازها</p>
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-4" data-aos="flip-left">
+            <div class="card card-soft h-100">
+              <div class="p-4 pb-0">
+                <div class="icon-pill"><i class="bi bi-person-heart"></i></div>
+              </div>
+              <div class="card-body">
+                <h5 class="fw-bold" data-en="Dentist — KSA">طبيب أسنان — السعودية</h5>
+                <p class="muted mb-2" data-en="Completed DataFlow and classification within 21 working days.">إنهاء الداتا فلو والتصنيف خلال 21 يوم عمل.</p>
+                <span class="badge text-bg-success" data-en="Completed">مُنجز</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4" data-aos="flip-left" data-aos-delay="120">
+            <div class="card card-soft h-100">
+              <div class="p-4 pb-0">
+                <div class="icon-pill"><i class="bi bi-capsule-pill"></i></div>
+              </div>
+              <div class="card-body">
+                <h5 class="fw-bold" data-en="Pharmacist — UAE">صيدلي — الإمارات</h5>
+                <p class="muted mb-2" data-en="Prometric registration and Dubai Health Authority licensing.">تسجيل البرومترك وترخيص دبي الصحي.</p>
+                <span class="badge text-bg-success" data-en="Completed">مُنجز</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4" data-aos="flip-left" data-aos-delay="240">
+            <div class="card card-soft h-100">
+              <div class="p-4 pb-0">
+                <div class="icon-pill"><i class="bi bi-activity"></i></div>
+              </div>
+              <div class="card-body">
+                <h5 class="fw-bold" data-en="Nurse — Oman">ممرضة — عُمان</h5>
+                <p class="muted mb-2" data-en="Experience accreditation and Ministry of Health licensing.">اعتماد الخبرات وترخيص وزارة الصحة.</p>
+                <span class="badge text-bg-success" data-en="Completed">مُنجز</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="process">
+      <div class="container">
+        <h2 class="section-title text-center mb-2" data-en="What Are Our Steps?">ما الخطوات التي نقوم بها؟</h2>
+        <p class="text-center muted mb-4" data-en="Simplified explanation of each stage with a clear definition">شرح مبسّط لكل مرحلة مع تعريف واضح</p>
+        <ol class="timeline">
+          <li class="timeline-step" data-aos="fade-up">
+            <span class="dot"></span>
+            <h6 class="fw-bold mb-1" data-en="1) Consultation & Eligibility Assessment"><i class="bi bi-chat-dots me-1"></i> 1) الاستشارة وتقييم الأهلية</h6>
+            <p class="muted mb-0" data-en="We gather your information and assess specialty, experience, and certificates to determine the optimal path in KSA/UAE/Oman.">نجمع معلوماتك ونُقيّم التخصص، الخبرات، والشهادات لتحديد المسار الأنسب في السعودية/الإمارات/عُمان.</p>
+          </li>
+          <li class="timeline-step" data-aos="fade-up" data-aos-delay="80">
+            <span class="dot"></span>
+            <h6 class="fw-bold mb-1" data-en="2) Document Collection & Auditing"><i class="bi bi-folder2-open me-1"></i> 2) جمع المستندات والتدقيق</h6>
+            <p class="muted mb-0" data-en="We prepare a checklist of required documents (certificates, experience, previous licenses), with professional auditing and certified translation when needed.">نُعد قائمة بالمستندات المطلوبة (شهادات، خبرات، تراخيص سابقة)، مع تدقيق احترافي وترجمة معتمدة عند الحاجة.</p>
+          </li>
+          <li class="timeline-step" data-aos="fade-up" data-aos-delay="160">
+            <span class="dot"></span>
+            <h6 class="fw-bold mb-1" data-en="3) DataFlow Verification"><i class="bi bi-database-check me-1"></i> 3) توثيق الداتا فلو</h6>
+            <p class="muted mb-0" data-en="Submitting the request to the DataFlow system and primary/advanced verification from educational and work bodies, with follow-up until the report is issued.">رفع الطلب في نظام DataFlow والتحقق الأساسي/المتقدم من الجهات التعليمية والعملية، مع متابعة إلى صدور التقرير.</p>
+          </li>
+          <li class="timeline-step" data-aos="fade-up" data-aos-delay="240">
+            <span class="dot"></span>
+            <h6 class="fw-bold mb-1" data-en="4) Professional Classification"><i class="bi bi-person-badge me-1"></i> 4) التصنيف المهني</h6>
+            <p class="muted mb-0" data-en="Setting up the SCFHS file or its equivalent, compliance matching, and then obtaining the classification decision.">إعداد ملف SCFHS أو ما يعادله، مطابقة الضوابط، ثم استصدار قرار التصنيف.</p>
+          </li>
+          <li class="timeline-step" data-aos="fade-up" data-aos-delay="320">
+            <span class="dot"></span>
+            <h6 class="fw-bold mb-1" data-en="5) Prometric Registration & Preparation"><i class="bi bi-clipboard2-check me-1"></i> 5) التسجيل والتهيئة للبرومترك</h6>
+            <p class="muted mb-0" data-en="Exam registration, appointment booking, and providing question banks and simulations to increase the success rate.">تسجيل الاختبار، حجز الموعد، تزويدك ببنك أسئلة ومحاكاة لرفع نسبة النجاح.</p>
+          </li>
+          <li class="timeline-step" data-aos="fade-up" data-aos-delay="400">
+            <span class="dot"></span>
+            <h6 class="fw-bold mb-1" data-en="6) Licensing & Follow-up"><i class="bi bi-patch-check me-1"></i> 6) الترخيص والمتابعة</h6>
+            <p class="muted mb-0" data-en="Completing final licensing procedures with the competent authority, then post-licensing support and adding any additional licenses later.">إتمام إجراءات الترخيص النهائي بالجهة المختصة، ثم دعم ما بعد الترخيص وإضافة أي تراخيص إضافية لاحقًا.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+    
+    <section id="testimonials" class="bg-body-tertiary">
+      <div class="container">
+        <h2 class="section-title text-center mb-2" data-en="Client Testimonials">آراء العملاء</h2>
+        <div class="row g-4 mt-1">
+          <div class="col-md-6" data-aos="fade-up">
+            <div class="card card-soft p-4 h-100">
+              <p class="mb-2" data-en="&quot;Professional service and fast completion, they finalized my classification without any issues.&quot;">"تعامل احترافي وسرعة إنجاز، خلصوا لي التصنيف بدون أي ملاحظات."</p>
+              <div class="small muted" data-en="— Dr. Noura">— د. نورة</div>
+            </div>
+          </div>
+          <div class="col-md-6" data-aos="fade-up" data-aos-delay="120">
+            <div class="card card-soft p-4 h-100">
+              <p class="mb-2" data-en="&quot;The support was continuous until I passed Prometric, thank God.&quot;">"الدعم كان مستمر حتى نجحت في البرومترك والحمدلله."</p>
+              <div class="small muted" data-en="— N. Sarah (Nursing) ">— م. سارة (تمريض)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="contact">
+      <div class="container">
+        <div class="row g-4 align-items-start">
+          <div class="col-lg-6" data-aos="fade-right">
+            <h2 class="section-title mb-2" data-en="Contact Us">تواصل معنا</h2>
+            <p class="muted" data-en="For inquiries or to start your file, fill out the form and we will get back to you.">للاستفسارات أو لبدء ملفك، املأ النموذج وسنعود إليك.</p>
+            <form id="contactForm" action="contact.php" method="POST" class="row g-3">
+              <div class="col-12">
+                <label class="form-label" data-en="Name">الاسم</label>
+                <input type="text" class="form-control" name="name" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label" data-en="Email">البريد الإلكتروني</label>
+                <input type="email" class="form-control" name="email" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label" data-en="Message">الرسالة</label>
+                <textarea class="form-control" rows="4" name="message" required></textarea>
+              </div>
+              <div class="col-12">
+                <button class="btn btn-cta" type="submit" id="sendBtn" data-en="Send">إرسال</button>
+              </div>
+            </form>
+          </div>
+          <div class="col-lg-6" data-aos="fade-left">
+            <div class="card card-soft p-4 h-100">
+              <h5 class="fw-bold mb-2" data-en="Contact Information">معلومات التواصل</h5>
+              <div class="d-flex align-items-center mb-2"><i class="bi bi-geo-alt text-primary me-2"></i><span data-en="Riyadh, Jeddah, Dubai, Muscat — Remote Service">الرياض، جدة، دبي، مسقط — خدمة عن بُعد</span></div>
+              <div class="d-flex align-items-center mb-2"><i class="bi bi-telephone text-primary me-2"></i><a href="tel:+966564079632" class="link-underline link-underline-opacity-0">+966 56 407 9632</a></div>
+              <div class="d-flex align-items-center mb-2"><i class="bi bi-envelope text-primary me-2"></i><a href="mailto:info@Alexpro.example" class="link-underline link-underline-opacity-0">info@Alexpro.example</a></div>
+              <div class="d-flex align-items-center"><i class="bi bi-clock text-primary me-2"></i><span data-en="Sunday - Thursday: 9 AM - 6 PM">الأحد - الخميس: 9ص - 6م</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+  </main>
+  
+  <footer>
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+      <div><span data-en="© 2024 Alexpro Healthcare Services">© <span id="year"></span> الخدمات الصحية  Alexpro</span></div>
+      <div class="small" data-en="We help you from the first step until licensing.">نساعدك من أول خطوة حتى الترخيص</div>
+    </div>
+  </footer>
+  
+  <button id="toTop" class="btn btn-primary rounded-pill"><i class="bi bi-arrow-up"></i></button>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 800, once: true });
+    
+    // سنة الفوتر
+    document.getElementById('year').textContent = new Date().getFullYear();
+    
+    // زر العودة للأعلى
+    const toTop = document.getElementById('toTop');
+    window.addEventListener('scroll', () => {
+      toTop.style.display = window.scrollY > 600 ? 'block' : 'none';
+    });
+    toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    
+    // الوضع الليلي
+    const DARK_KEY = 'hf.dark';
+    const darkBtn = document.getElementById('darkToggle');
+    const applyDark = (on) => { document.body.classList.toggle('dark', on); darkBtn.textContent = on ? '☀️' : '🌙'; };
+    applyDark(localStorage.getItem(DARK_KEY) === '1');
+    darkBtn.addEventListener('click', () => {
+      const next = !document.body.classList.contains('dark');
+      applyDark(next); localStorage.setItem(DARK_KEY, next ? '1' : '0');
+    });
+
+    // =========================================================
+    // LANGUAGE SWITCH FUNCTIONALITY (الجزء الخاص بتبديل اللغة)
+    // =========================================================
+    const LANG_KEY = 'hf.lang';
+    const langToggleBtn = document.getElementById('langToggle');
+    const htmlEl = document.documentElement;
+
+    // وظيفة تبديل اللغة (تحديث جميع النصوص)
+    const switchLanguage = (lang) => {
+        const isEnglish = (lang === 'en');
+        
+        // 1. تحديث الخاصيتين lang و dir في وسم <html>
+        htmlEl.setAttribute('lang', lang);
+        htmlEl.setAttribute('dir', isEnglish ? 'ltr' : 'rtl');
+        
+        // 2. تحديث جميع النصوص في الصفحة
+        const translatableElements = document.querySelectorAll('[data-en]');
+        
+        // نحدث العنوان (Title) أولاً
+        const titleEl = document.querySelector('title');
+        if (titleEl) {
+             const titleEn = titleEl.getAttribute('data-en');
+             titleEl.textContent = isEnglish ? titleEn : titleEl.textContent;
+        }
+
+        // نحدث باقي العناصر
+        translatableElements.forEach(el => {
+            const arText = el.getAttribute('data-ar') || el.textContent; 
+            const enText = el.getAttribute('data-en');
+            
+            // نخزن النص العربي الأصلي في خاصية data-ar لتجنب فقدانه عند التبديل
+            if (!el.hasAttribute('data-ar')) {
+                el.setAttribute('data-ar', el.textContent);
+            }
+
+            el.textContent = isEnglish ? enText : arText;
+        });
+
+        // 3. تحديث زر التبديل
+        if (isEnglish) {
+            langToggleBtn.textContent = 'عربي';
+            langToggleBtn.title = 'العربية';
+        } else {
+            langToggleBtn.textContent = 'EN';
+            langToggleBtn.title = 'English';
+        }
+
+        // 4. إعادة تهيئة Scrollspy (للتوافق مع تغير الاتجاه)
+        // يجب أن نستخدم setTimeout لضمان تطبيق التغييرات على DOM قبل إعادة تهيئة Scrollspy
+        setTimeout(() => {
+          const scrollSpyInstance = bootstrap.ScrollSpy.getInstance(document.body);
+          if (scrollSpyInstance) {
+            scrollSpyInstance.dispose();
+            new bootstrap.ScrollSpy(document.body, { target: '#sidebarNav', offset: 120 });
+          }
+        }, 100);
+    };
+
+    // 2. قراءة اللغة المحفوظة والبدء بها
+    let currentLang = localStorage.getItem(LANG_KEY) || 'ar';
+    switchLanguage(currentLang);
+
+    // 3. مستمع النقر على الزر
+    langToggleBtn.addEventListener('click', () => {
+        currentLang = (currentLang === 'ar') ? 'en' : 'ar';
+        localStorage.setItem(LANG_KEY, currentLang);
+        switchLanguage(currentLang);
+    });
+
+    // Scrollspy re-init (لشريط الجانبي) - تم نقل التهيأة الابتدائية إلى وظيفة switchLanguage
+    
+    // إرسال النموذج (Ajax اختياريًا)
+    const form = document.getElementById('contactForm');
+    const sendBtn = document.getElementById('sendBtn');
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      // يتم تغيير النص حسب اللغة الحالية
+      const sendingText = htmlEl.getAttribute('lang') === 'en' ? 'Sending...' : 'جاري الإرسال...';
+      const successText = htmlEl.getAttribute('lang') === 'en' ? 'Sent Successfully' : 'تم الإرسال بنجاح';
+      const failText = htmlEl.getAttribute('lang') === 'en' ? 'Failed to send, try again later' : 'تعذر الإرسال، حاول لاحقًا';
+
+      sendBtn.disabled = true; sendBtn.textContent = sendingText;
+      const fd = new FormData(form);
+      fetch(form.action, { method:'POST', body: fd, headers:{ 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(r => r.json())
+        .then(d => {
+          alert(d.message || successText);
+          if(d.status === 'success') form.reset();
+        })
+        .catch(() => alert(failText))
+        .finally(() => { 
+            sendBtn.disabled = false; 
+            sendBtn.textContent = htmlEl.getAttribute('lang') === 'en' ? 'Send' : 'إرسال';
+        });
+    });
+  </script>
+</body>
+</html>
